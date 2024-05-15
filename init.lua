@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = false
+-- vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -167,13 +167,6 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagn
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
--- Terminal keymaps
-vim.api.nvim_set_keymap('n', '<leader>tr', ':terminal<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>th', ':split | terminal<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>tv', ':vsplit | terminal<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>tt', ':tabnew | terminal<CR>', {noremap = true, silent = true})
-
-
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -181,6 +174,12 @@ vim.api.nvim_set_keymap('n', '<leader>tt', ':tabnew | terminal<CR>', {noremap = 
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
+-- TIP: Disable arrow keys in normal mode
+-- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+-- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+-- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+-- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -579,7 +578,7 @@ require('lazy').setup({
           filetypes = { 'python' },
           settings = {
             format = {
-              args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' }
+              args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
             },
             lint = {
               onSave = true,
@@ -828,7 +827,7 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup({
+      require('mini.surround').setup {
         mappings = {
           add = 'gsa', -- Add surrounding in Normal and Visual modes
           delete = 'gsd', -- Delete surrounding
@@ -841,7 +840,7 @@ require('lazy').setup({
           suffix_last = 'l', -- Suffix to search with "prev" method
           suffix_next = 'n', -- Suffix to search with "next" method
         },
-      })
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -860,37 +859,6 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
-    end,
-  },
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    },
-    config = function(_, opts)
-      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-
-      -- Prefer git instead of curl in order to improve connectivity in some environments
-      require('nvim-treesitter.install').prefer_git = true
-      ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.configs').setup(opts)
-
-      -- There are additional nvim-treesitter modules that you can use to interact
-      -- with nvim-treesitter. You should go explore a few and see what interests you:
-      --
-      --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-      --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
@@ -909,7 +877,7 @@ require('lazy').setup({
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
-  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps ]]
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -938,19 +906,6 @@ require('lazy').setup({
     },
   },
 })
-
--- [[ Additional Configuration ]]
-
--- [[ Neotree ]]
-vim.api.nvim_create_autocmd('VimEnter', {
-  command = 'set nornu nonu | Neotree toggle',
-})
-vim.api.nvim_create_autocmd('BufEnter', {
-  command = 'set rnu nu',
-})
-vim.api.nvim_set_keymap('n', '<leader>n', ':Neotree focus<CR>', { noremap = true, silent = true })
-
--- [[ Neotree end ]]
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -15,7 +15,7 @@ return {
       vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' }) -- or some grey
       vim.api.nvim_set_hl(0, 'LeapMatch', {
         -- For light themes, set to 'black' or similar.
-        fg = 'white', bold = true, nocombine = true,
+        fg = 'black', bg = '#32c202', bold = true, nocombine = true,
       })
 
       -- Lightspeed colors
@@ -25,10 +25,10 @@ return {
       -- You might want to use either the primary label or the shortcut colors
       -- for Leap primary labels, depending on your taste.
       vim.api.nvim_set_hl(0, 'LeapLabelPrimary', {
-        fg = 'red', bold = true, nocombine = true,
+        fg = 'white', bg = '#f02077', bold = true, nocombine = true,
       })
       vim.api.nvim_set_hl(0, 'LeapLabelSecondary', {
-        fg = 'blue', bold = true, nocombine = true,
+        fg = 'white', bg = '#4287f5', bold = true, nocombine = true,
       })
       -- Try it without this setting first, you might find you don't even miss it.
       require('leap').opts.highlight_unlabeled_phase_one_targets = true

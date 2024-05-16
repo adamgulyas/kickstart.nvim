@@ -540,6 +540,17 @@ require('lazy').setup({
                 vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
               end,
             })
+
+            vim.api.nvim_create_autocmd('BufWritePre', {
+              callback = function()
+                if vim.bo.ft == 'python' then
+                  vim.lsp.buf.code_action {
+                    context = { only = { 'source.fixAll.ruff' } },
+                    apply = true,
+                  }
+                end
+              end,
+            })
           end
 
           -- The following autocommand is used to enable inlay hints in your

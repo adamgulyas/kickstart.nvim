@@ -41,18 +41,22 @@ return {
     config = function()
       require('bufferline').setup {
         options = {
-          numbers = 'both',
           close_command = 'bdelete! %d', -- can be a string | function, see "Mouse actions"
           right_mouse_command = 'bdelete! %d', -- can be a string | function, see "Mouse actions"
           left_mouse_command = 'buffer %d', -- can be a string | function, see "Mouse actions"
           middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"
           indicator = {
-            icon = '▎', -- this should be omitted if indicator style is not 'icon'
+            icon = '▌', -- this should be omitted if indicator style is not 'icon'
             style = 'icon', -- can also be 'underline'|'none',
+          },
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = { 'close' },
           },
           buffer_close_icon = '✕',
           modified_icon = '',
-          close_icon = '',
+          close_icon = '✕',
           left_trunc_marker = '',
           right_trunc_marker = '',
           max_name_length = 18,
@@ -64,7 +68,7 @@ return {
             local icon = level:match 'error' and ' ' or ' '
             return ' ' .. icon .. count
           end,
-          offsets = { { filetype = 'NvimTree', text = 'File Explorer', text_align = 'left' } },
+          offsets = { { filetype = 'Neotree', text = 'File Explorer', text_align = 'left' } },
           show_buffer_icons = true, -- disable filetype icons for buffers
           show_buffer_close_icons = true,
           show_close_icon = true,
@@ -76,6 +80,21 @@ return {
           sort_by = 'id',
         },
       }
+
+      -- Keybindings to move between tabs
+      vim.api.nvim_set_keymap('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>2', ':BufferLineGoToBuffer 2<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>3', ':BufferLineGoToBuffer 3<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>4', ':BufferLineGoToBuffer 4<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>5', ':BufferLineGoToBuffer 5<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>6', ':BufferLineGoToBuffer 6<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>7', ':BufferLineGoToBuffer 7<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>8', ':BufferLineGoToBuffer 8<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>', { noremap = true, silent = true })
+
+      -- Keybindings to cycle through buffers
+      vim.api.nvim_set_keymap('n', '<leader>ll', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>hh', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
     end,
   },
   {

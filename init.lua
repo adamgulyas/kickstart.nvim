@@ -163,11 +163,11 @@ vim.opt.termguicolors = true
 -- Keybinding to yank all text
 vim.api.nvim_set_keymap('n', '<leader>ya', 'ggVGy', { noremap = true, silent = true, desc = 'Yank all text' })
 
--- Key mappings for undo in insert mode
-vim.api.nvim_set_keymap('i', '<C-u>', '<C-o>u', { noremap = true, silent = true })
-
--- Key mappings for redo in insert mode
-vim.api.nvim_set_keymap('i', '<C-r>', '<C-o><C-r>', { noremap = true, silent = true })
+-- -- Key mappings for undo in insert mode
+-- vim.api.nvim_set_keymap('i', '<C-u>', '<C-o>u', { noremap = true, silent = true })
+--
+-- -- Key mappings for redo in insert mode
+-- vim.api.nvim_set_keymap('i', '<C-r>', '<C-o><C-r>', { noremap = true, silent = true })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true

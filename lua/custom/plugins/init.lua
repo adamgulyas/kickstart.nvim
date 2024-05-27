@@ -122,7 +122,7 @@ return {
       -- for Leap primary labels, depending on your taste.
       vim.api.nvim_set_hl(0, 'LeapLabelPrimary', {
         fg = 'white',
-        bg = '#f02077',
+        bg = '#ff2f87',
         bold = true,
         nocombine = true,
       })
@@ -136,10 +136,6 @@ return {
       require('leap').opts.highlight_unlabeled_phase_one_targets = true
     end,
   },
-  -- vim.keymap.set('n', 's', '<Plug>(leap)'),
-  -- vim.keymap.set('n', 'S', '<Plug>(leap-from-window)'),
-  -- vim.keymap.set({ 'x', 'o' }, 's', '<Plug>(leap-forward)'),
-  -- vim.keymap.set({ 'x', 'o' }, 'S', '<Plug>(leap-backward)'),
   {
     'christoomey/vim-tmux-navigator',
     lazy = false,

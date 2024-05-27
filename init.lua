@@ -169,6 +169,8 @@ vim.api.nvim_set_keymap('n', '<leader>ya', 'ggVGy', { noremap = true, silent = t
 -- -- Key mappings for redo in insert mode
 -- vim.api.nvim_set_keymap('i', '<C-r>', '<C-o><C-r>', { noremap = true, silent = true })
 
+vim.api.nvim_set_keymap('n', '<leader>cc', ':CopilotChat<CR>', { noremap = true, silent = true })
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')

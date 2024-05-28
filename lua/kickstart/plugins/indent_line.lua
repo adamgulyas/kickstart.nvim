@@ -40,10 +40,10 @@ return {
         'RainbowBaseRed',
         'RainbowBaseYellow',
         'RainbowBaseBlue',
-        'RainbowBaseOrange',
-        'RainbowBaseGreen',
         'RainbowBaseViolet',
+        'RainbowBaseGreen',
         'RainbowBaseCyan',
+        'RainbowBaseOrange',
       }
       local scope_highlight = {
         'RainbowScopeCyan',

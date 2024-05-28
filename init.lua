@@ -175,6 +175,12 @@ vim.api.nvim_set_keymap('n', '<leader>cc', ':CopilotChat<CR>', { noremap = true,
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Key mappings to use the black hole register for deleting and changing text
+vim.api.nvim_set_keymap('n', '_d', '"_d', { noremap = true })
+vim.api.nvim_set_keymap('n', '_D', '"_D', { noremap = true })
+vim.api.nvim_set_keymap('n', '_c', '"_c', { noremap = true })
+vim.api.nvim_set_keymap('n', '_C', '"_C', { noremap = true })
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })

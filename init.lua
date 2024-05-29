@@ -98,6 +98,8 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
+vim.g.skip_ts_context_commentstring_module = true
+
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -157,11 +159,17 @@ vim.opt.scrolloff = 10
 -- Enable termguicolors for nvim-highlight-colors plugin
 vim.opt.termguicolors = true
 
+-- Set relative line numbers
+vim.opt.relativenumber = true
+vim.opt.number = true -- Also show the absolute number on the current line
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
 -- Keybinding to yank all text
 vim.api.nvim_set_keymap('n', '<leader>ya', 'ggVGy', { noremap = true, silent = true, desc = 'Yank all text' })
+-- Keybinding to select all text
+vim.api.nvim_set_keymap('n', '<leader>va', 'ggVG', { noremap = true, silent = true, desc = 'Select all text' })
 
 -- -- Key mappings for undo in insert mode
 -- vim.api.nvim_set_keymap('i', '<C-u>', '<C-o>u', { noremap = true, silent = true })
@@ -711,11 +719,9 @@ require('lazy').setup({
         yaml = { 'prettier' },
         markdown = { 'prettier' },
         htmldjango = { 'djlint' },
-        djangohtml = { 'djlint' },
       },
     },
   },
-
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
@@ -904,7 +910,10 @@ require('lazy').setup({
     opts = {
       ensure_installed = {
         'python',
+        'html',
         'javascript',
+        'typescript',
+        'tsx',
         'ruby',
         'bash',
         'c',
@@ -927,9 +936,19 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'python', 'javascript', 'bash' },
+        additional_vim_regex_highlighting = { 'python', 'javascript', 'typescript', 'html', 'bash' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+      context_commentstring = {
+        enable = true,
+        enable_autocmd = false,
+      },
+      autotag = {
+        enable = true,
+      },
+      matchup = {
+        enable = true,
+      },
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -937,7 +956,15 @@ require('lazy').setup({
       -- Prefer git instead of curl in order to improve connectivity in some environments
       require('nvim-treesitter.install').prefer_git = true
       ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.configs').setup(opts)
+      -- require('nvim-treesitter.configs').setup(opts)
+
+      -- Autocommand to handle embedded JavaScript/JSX within HTML files
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'html',
+        callback = function()
+          vim.bo.filetype = 'html.javascript'
+        end,
+      })
 
       -- There are additional nvim-treesitter modules that you can use to interact
       -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -946,6 +973,24 @@ require('lazy').setup({
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
+  },
+  -- Add nvim-ts-autotag
+  {
+    'windwp/nvim-ts-autotag',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {
+      enable = true,
+    },
+  },
+
+  -- Add nvim-ts-context-commentstring
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {
+      enable = true,
+      enable_autocmd = false,
+    },
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the

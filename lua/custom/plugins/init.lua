@@ -30,6 +30,14 @@ return {
         [[                                                                       ]],
         [[                                                                       ]],
       }
+      -- Define a highlight group for the header
+      vim.api.nvim_set_hl(0, 'AlphaHeader', { fg = '#bce368', bg = 'NONE', bold = true })
+      --
+      -- Apply the highlight group to the header
+      dashboard.section.header.opts = {
+        position = 'center',
+        hl = 'AlphaHeader',
+      }
 
       alpha.setup(dashboard.opts)
     end,
@@ -141,7 +149,7 @@ return {
     lazy = false,
   },
   {
-    'github/copilot.vim',
+    -- 'github/copilot.vim',
   },
   {
     'kdheepak/lazygit.nvim',
@@ -163,17 +171,20 @@ return {
     },
   },
   {
-    'CopilotC-Nvim/CopilotChat.nvim',
-    branch = 'canary',
-    dependencies = {
-      { 'github/copilot.vim' }, -- or github/copilot.vim
-      { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper
-    },
-    opts = {
-      debug = true, -- Enable debugging
-      -- See Configuration section for rest
-    },
-    -- See Commands section for default commands if you want to lazy load on them
+    -- 'CopilotC-Nvim/CopilotChat.nvim',
+    -- branch = 'canary',
+    -- dependencies = {
+    --   { 'github/copilot.vim' }, -- or github/copilot.vim
+    --   { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper
+    -- },
+    -- opts = {
+    --   debug = true, -- Enable debugging
+    --   -- See Configuration section for rest
+    -- },
+    -- -- See Commands section for default commands if you want to lazy load on them
+  },
+  {
+    'kawre/neotab.nvim',
   },
   {
     'abecodes/tabout.nvim',
@@ -184,17 +195,17 @@ return {
         backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
         act_as_tab = true, -- shift content if tab out is not possible
         act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
-        default_tab = '<C-t>', -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
-        default_shift_tab = '<C-d>', -- reverse shift default action,
-        enable_backwards = true, -- well ...
         completion = false, -- if the tabkey is used in a completion pum
         tabouts = {
-          { open = "'", close = "'" },
-          { open = '"', close = '"' },
-          { open = '`', close = '`' },
           { open = '(', close = ')' },
           { open = '[', close = ']' },
           { open = '{', close = '}' },
+          { open = '[', close = ']' },
+          { open = '{', close = '}' },
+          { open = "'", close = "'" },
+          { open = '"', close = '"' },
+          { open = '`', close = '`' },
+          { open = '<', close = '>' },
         },
         ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
         exclude = {}, -- tabout will ignore these filetypes
@@ -204,6 +215,7 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'L3MON4D3/LuaSnip',
       'hrsh7th/nvim-cmp',
+      'kawre/neotab.nvim',
     },
     opt = true, -- Set this to true if the plugin is optional
     event = 'InsertCharPre', -- Set the event to 'InsertCharPre' for better compatibility

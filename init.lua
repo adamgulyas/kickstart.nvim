@@ -166,6 +166,17 @@ vim.opt.termguicolors = true
 vim.api.nvim_set_keymap('n', '<leader>ya', 'ggVGy', { noremap = true, silent = true, desc = 'Yank all text' })
 -- Keybinding to select all text
 vim.api.nvim_set_keymap('n', '<leader>va', 'ggVG', { noremap = true, silent = true, desc = 'Select all text' })
+-- Move line up
+vim.api.nvim_set_keymap('n', '<M-k>', ':m .-2<CR>==', { noremap = true, silent = true })
+
+-- Move line down
+vim.api.nvim_set_keymap('n', '<M-j>', ':m .+1<CR>==', { noremap = true, silent = true })
+
+-- Visual mode: Move selection up
+vim.api.nvim_set_keymap('v', '<M-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+
+-- Visual mode: Move selection down
+vim.api.nvim_set_keymap('v', '<M-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 
 -- -- Key mappings for undo in insert mode
 -- vim.api.nvim_set_keymap('i', '<C-u>', '<C-o>u', { noremap = true, silent = true })

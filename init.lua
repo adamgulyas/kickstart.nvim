@@ -844,7 +844,7 @@ require('lazy').setup({
     config = function()
       require('tokyonight').setup {
         on_colors = function(colors)
-          colors.fg_gutter = '#6A558D'
+          colors.fg_gutter = '#2c61c9'
         end,
 
         on_highlights = function(hl, c)

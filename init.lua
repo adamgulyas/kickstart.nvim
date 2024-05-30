@@ -104,7 +104,7 @@ vim.g.skip_ts_context_commentstring_module = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -158,10 +158,6 @@ vim.opt.scrolloff = 10
 
 -- Enable termguicolors for nvim-highlight-colors plugin
 vim.opt.termguicolors = true
-
--- Set relative line numbers
-vim.opt.relativenumber = true
-vim.opt.number = true -- Also show the absolute number on the current line
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -833,7 +829,8 @@ require('lazy').setup({
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
+  {
+    -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
     --
@@ -841,13 +838,33 @@ require('lazy').setup({
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+      -- Load the colorscheme
       vim.cmd.colorscheme 'tokyonight-moon'
+    end,
+    config = function()
+      require('tokyonight').setup {
+        on_colors = function(colors)
+          colors.fg_gutter = '#6A558D'
+        end,
 
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+        on_highlights = function(hl, c)
+          hl.MiniStatuslineFilename = {
+            bg = '#3b4261',
+            fg = '#828bb8',
+          }
+          hl.CursorLineNr = {
+            bold = true,
+            fg = '#9FE86A',
+          }
+        end,
+        -- Your configuration comes here
+        -- or leave it empty to use the default settings
+        -- Refer to the configuration section below
+      }
+      -- You can set the colorscheme here, or you can set it in the `init` function
+      --  if you want to ensure that the colors are set before the colorscheme is loaded.
+      --
+      -- vim.cmd 'colorscheme tokyonight-moon'
     end,
   },
 

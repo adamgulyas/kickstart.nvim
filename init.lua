@@ -855,7 +855,8 @@ require('lazy').setup({
     config = function()
       require('tokyonight').setup {
         on_colors = function(colors)
-          colors.fg_gutter = '#2c61c9'
+          -- https://github.com/folke/tokyonight.nvim/blob/main/extras/lua/tokyonight_moon.lua
+          -- colors.fg_gutter = '#4F5785'
         end,
 
         on_highlights = function(hl, c)
@@ -867,10 +868,16 @@ require('lazy').setup({
             bold = true,
             fg = '#9FE86A',
           }
+          hl.LineNr = {
+            fg = '#3b4261',
+          }
+          hl.LineNrAbove = {
+            fg = '#82AAFF',
+          }
+          hl.LineNrBelow = {
+            fg = '#AD8AE5',
+          }
         end,
-        -- Your configuration comes here
-        -- or leave it empty to use the default settings
-        -- Refer to the configuration section below
       }
       -- You can set the colorscheme here, or you can set it in the `init` function
       --  if you want to ensure that the colors are set before the colorscheme is loaded.

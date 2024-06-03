@@ -466,6 +466,30 @@ require('lazy').setup({
       { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
+      local lspconfig = require 'lspconfig'
+      -- local cmp_nvim_lsp = require 'cmp_nvim_lsp'
+      -- local configs = require 'lspconfig.configs'
+      -- local util = require 'lspconfig.util'
+
+      require('lspconfig').dotenvls.setup {}
+
+      -- Emmet Language Server setup
+      lspconfig.emmet_ls.setup {
+        -- Optionally specify filetypes to use Emmet with
+        filetypes = { 'html', 'css', 'javascriptreact', 'typescriptreact', 'vue', 'svelte', 'htmldjango', 'javascript', 'typescript' },
+        init_options = {
+          html = {
+            options = {
+              -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts
+              ['bem.enabled'] = true,
+            },
+          },
+        },
+      }
+      require('mason').setup()
+      require('mason-lspconfig').setup {
+        automatic_installation = true,
+      }
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.

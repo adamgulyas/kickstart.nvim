@@ -452,10 +452,19 @@ require('lazy').setup({
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
+      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      -- Automatically install LSPs and related tools to stdpath for Neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+
+      -- Useful status updates for LSP.
       'j-hui/fidget.nvim',
+      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+      -- { 'j-hui/fidget.nvim', opts = {} },
+
+      -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
+      -- used for completion, annotations and signatures of Neovim apis
       'folke/neodev.nvim',
     },
     config = function()
@@ -464,21 +473,21 @@ require('lazy').setup({
       -- local configs = require 'lspconfig.configs'
       -- local util = require 'lspconfig.util'
 
-      require('lspconfig').dotenvls.setup {}
+      -- require('lspconfig').dotenvls.setup {}
 
-      -- Emmet Language Server setup
-      lspconfig.emmet_ls.setup {
-        -- Optionally specify filetypes to use Emmet with
-        filetypes = { 'html', 'css', 'javascriptreact', 'typescriptreact', 'vue', 'svelte', 'htmldjango', 'javascript', 'typescript' },
-        init_options = {
-          html = {
-            options = {
-              -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts
-              ['bem.enabled'] = true,
-            },
-          },
-        },
-      }
+      -- -- Emmet Language Server setup
+      -- lspconfig.emmet_ls.setup {
+      --   -- Optionally specify filetypes to use Emmet with
+      --   filetypes = { 'html', 'css', 'javascriptreact', 'typescriptreact', 'vue', 'svelte', 'htmldjango', 'javascript', 'typescript' },
+      --   init_options = {
+      --     html = {
+      --       options = {
+      --         -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts
+      --         ['bem.enabled'] = true,
+      --       },
+      --     },
+      --   },
+      -- }
       require('mason').setup()
       require('mason-lspconfig').setup {
         automatic_installation = true,

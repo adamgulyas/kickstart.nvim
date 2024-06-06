@@ -3,6 +3,7 @@
 --
 -- See the kickstart.nvim README for more information
 return {
+  { 'eandrju/cellular-automaton.nvim' },
   {
     'goolord/alpha-nvim',
     dependencies = {

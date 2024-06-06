@@ -162,6 +162,8 @@ vim.opt.termguicolors = true
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+vim.api.nvim_set_keymap('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { noremap = true, silent = true, desc = 'MAKE IT RAIN 💸💸💸' })
+
 -- Keybinding to yank all text
 vim.api.nvim_set_keymap('n', '<leader>ya', 'ggVGy', { noremap = true, silent = true, desc = 'Yank all text' })
 -- Keybinding to select all text

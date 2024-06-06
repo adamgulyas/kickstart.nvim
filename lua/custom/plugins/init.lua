@@ -3,7 +3,6 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-  { 'eandrju/cellular-automaton.nvim' },
   {
     'goolord/alpha-nvim',
     dependencies = {
@@ -238,4 +237,6 @@ return {
   {
     'tpope/vim-obsession',
   },
+  { 'eandrju/cellular-automaton.nvim' },
+  { 'wakatime/vim-wakatime', lazy = false },
 }

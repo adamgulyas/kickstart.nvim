@@ -477,19 +477,19 @@ require('lazy').setup({
 
       -- require('lspconfig').dotenvls.setup {}
 
-      -- -- Emmet Language Server setup
-      -- lspconfig.emmet_ls.setup {
-      --   -- Optionally specify filetypes to use Emmet with
-      --   filetypes = { 'html', 'css', 'javascriptreact', 'typescriptreact', 'vue', 'svelte', 'htmldjango', 'javascript', 'typescript' },
-      --   init_options = {
-      --     html = {
-      --       options = {
-      --         -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts
-      --         ['bem.enabled'] = true,
-      --       },
-      --     },
-      --   },
-      -- }
+      -- Emmet Language Server setup
+      lspconfig.emmet_ls.setup {
+        -- Optionally specify filetypes to use Emmet with
+        filetypes = { 'html', 'css', 'javascriptreact', 'typescriptreact', 'vue', 'svelte', 'htmldjango', 'javascript', 'typescript' },
+        init_options = {
+          html = {
+            options = {
+              -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts
+              ['bem.enabled'] = true,
+            },
+          },
+        },
+      }
       require('mason').setup()
       require('mason-lspconfig').setup {
         automatic_installation = true,

@@ -187,6 +187,11 @@ vim.api.nvim_set_keymap('v', '<M-j>', ":m '>+1<CR>gv=gv", { noremap = true, sile
 -- vim.api.nvim_set_keymap('i', '<C-r>', '<C-o><C-r>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>cc', ':CopilotChat<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>cc', ':CopilotChat<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>aa', ':CopilotChatToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>aa', ':CopilotChatToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ax', ':CopilotChatReset<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>ax', ':CopilotChatReset<CR>', { noremap = true, silent = true })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true

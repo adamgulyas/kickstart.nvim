@@ -20,12 +20,37 @@ return {
         width = 0.45,
       },
       mappings = {
-        submit_prompt = {
-          insert = '',
+        complete = {
+          detail = 'Use @<Tab> or /<Tab> for options.',
+          insert = '<Right>',
+        },
+        close = {
+          normal = 'q',
+          insert = '<C-c>',
         },
         reset = {
-          normal = '',
-          insert = '',
+          normal = '<C-l>',
+          insert = '<C-l>',
+        },
+        submit_prompt = {
+          normal = '<CR>',
+          insert = '<C-m>',
+        },
+        accept_diff = {
+          normal = '<C-y>',
+          insert = '<C-y>',
+        },
+        yank_diff = {
+          normal = 'gy',
+        },
+        show_diff = {
+          normal = 'gd',
+        },
+        show_system_prompt = {
+          normal = 'gp',
+        },
+        show_user_selection = {
+          normal = 'gs',
         },
       },
       prompts = {

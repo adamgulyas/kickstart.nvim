@@ -464,6 +464,9 @@ require('lazy').setup({
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'jose-elias-alvarez/null-ls.nvim',
+      'jose-elias-alvarez/nvim-lsp-ts-utils',
+      'MunifTanjim/eslint.nvim',
 
       -- Useful status updates for LSP.
       'j-hui/fidget.nvim',
@@ -479,6 +482,26 @@ require('lazy').setup({
       -- local cmp_nvim_lsp = require 'cmp_nvim_lsp'
       -- local configs = require 'lspconfig.configs'
       -- local util = require 'lspconfig.util'
+      require('null-ls').setup {}
+      require('eslint').setup {
+        bin = 'eslint', -- or `eslint_d`
+        code_actions = {
+          enable = true,
+          apply_on_save = {
+            enable = true,
+            types = { 'directive', 'problem', 'suggestion', 'layout' },
+          },
+          disable_rule_comment = {
+            enable = true,
+            location = 'separate_line', -- or `same_line`
+          },
+        },
+        diagnostics = {
+          enable = true,
+          report_unused_disable_directives = false,
+          run_on = 'type', -- or `save`
+        },
+      }
 
       -- require('lspconfig').dotenvls.setup {}
 

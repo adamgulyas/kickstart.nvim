@@ -46,13 +46,13 @@ return {
         'RainbowBaseOrange',
       }
       local scope_highlight = {
-        'RainbowScopeCyan',
+        'RainbowScopeRed',
+        'RainbowScopeYellow',
+        'RainbowScopeBlue',
         'RainbowScopeViolet',
         'RainbowScopeGreen',
+        'RainbowScopeCyan',
         'RainbowScopeOrange',
-        'RainbowScopeBlue',
-        'RainbowScopeYellow',
-        'RainbowScopeRed',
       }
 
       local hooks = require 'ibl.hooks'

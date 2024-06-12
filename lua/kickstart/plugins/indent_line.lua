@@ -19,22 +19,11 @@ return {
           [''] = 110,
           lua = 210,
         },
-        highlight = {
-          'RainbowDelimiterRed',
-          'RainbowDelimiterYellow',
-          'RainbowDelimiterBlue',
-          'RainbowDelimiterOrange',
-          'RainbowDelimiterGreen',
-          'RainbowDelimiterViolet',
-          'RainbowDelimiterCyan',
-        },
       }
     end,
   },
   { -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help ibl`
     config = function()
       local base_highlight = {
         'RainbowBaseRed',
@@ -55,7 +44,11 @@ return {
         'RainbowScopeOrange',
       }
 
+      vim.g.rainbow_delimiters = { highlight = scope_highlight }
       local hooks = require 'ibl.hooks'
+
+      hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+
       -- create the highlight groups in the highlight setup hook, so they are reset
       -- every time the colorscheme changes
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
@@ -78,10 +71,10 @@ return {
       require('ibl').setup {
         indent = {
           highlight = base_highlight,
-          char = '│',
+          char = '▏',
         },
         whitespace = {
-          highlight = { 'Function', 'Label' },
+          highlight = scope_highlight,
           remove_blankline_trail = true,
         },
         scope = {

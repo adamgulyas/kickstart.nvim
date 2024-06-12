@@ -484,23 +484,19 @@ require('lazy').setup({
       -- local util = require 'lspconfig.util'
       require('null-ls').setup {}
       require('eslint').setup {
-        bin = 'eslint', -- or `eslint_d`
-        code_actions = {
-          enable = true,
-          apply_on_save = {
-            enable = true,
-            types = { 'directive', 'problem', 'suggestion', 'layout' },
-          },
-          disable_rule_comment = {
-            enable = true,
-            location = 'separate_line', -- or `same_line`
-          },
+        on_attach = function(client, bufnr)
+          -- Enable document formatting on save
+          if client.server_capabilities.documentFormattingProvider then
+            vim.cmd 'autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ async = true })'
+          end
+
+          -- Other on_attach configurations
+        end,
+        settings = {
+          -- ESLint settings
+          format = { enable = true }, -- Enable format on save
         },
-        diagnostics = {
-          enable = true,
-          report_unused_disable_directives = false,
-          run_on = 'type', -- or `save`
-        },
+        filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' }, -- Supported file types
       }
 
       -- require('lspconfig').dotenvls.setup {}

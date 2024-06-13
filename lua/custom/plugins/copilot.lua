@@ -16,6 +16,7 @@ return {
       answer_header = '',
       error_header = '',
       allow_insecure = true,
+      show_help = false,
       window = {
         width = 0.45,
       },

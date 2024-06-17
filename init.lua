@@ -949,6 +949,10 @@ require('lazy').setup({
           hl.LineNrBelow = {
             fg = '#AD8AE5',
           }
+          hl.DiagnosticUnnecessary = {
+            bg = '#3d2f1c',
+            fg = '#ffc777',
+          }
         end,
       }
       -- You can set the colorscheme here, or you can set it in the `init` function

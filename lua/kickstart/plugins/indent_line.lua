@@ -26,19 +26,19 @@ return {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
       local base_highlight = {
-        'RainbowBaseViolet',
+        'RainbowBaseRed',
         'RainbowBaseYellow',
         'RainbowBaseBlue',
-        'RainbowBaseRed',
+        'RainbowBaseViolet',
         'RainbowBaseGreen',
         'RainbowBaseCyan',
         'RainbowBaseOrange',
       }
       local scope_highlight = {
-        'RainbowScopeViolet',
+        'RainbowScopeRed',
         'RainbowScopeYellow',
         'RainbowScopeBlue',
-        'RainbowScopeRed',
+        'RainbowScopeViolet',
         'RainbowScopeGreen',
         'RainbowScopeCyan',
         'RainbowScopeOrange',

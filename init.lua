@@ -950,8 +950,10 @@ require('lazy').setup({
             fg = '#AD8AE5',
           }
           hl.DiagnosticUnnecessary = {
-            bg = '#3d2f1c',
+            bg = '#38343d',
             fg = '#ffc777',
+            -- bg = '#322639',
+            -- fg = '#c53b53',
           }
         end,
       }

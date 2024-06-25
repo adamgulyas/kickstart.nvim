@@ -44,10 +44,10 @@ return {
         'RainbowScopeOrange',
       }
 
-      vim.g.rainbow_delimiters = { highlight = scope_highlight }
       local hooks = require 'ibl.hooks'
 
       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+      vim.g.rainbow_delimiters = { highlight = scope_highlight }
 
       -- create the highlight groups in the highlight setup hook, so they are reset
       -- every time the colorscheme changes
@@ -79,10 +79,34 @@ return {
         },
         scope = {
           highlight = scope_highlight,
+          include = {
+            node_type = {
+              python = { 'function', 'class', 'block', 'compound_statement' },
+              lua = { 'function', 'table_constructor', 'block' },
+            },
+          },
+        },
+        exclude = {
+          filetypes = { 'help', 'dashboard', 'dashpreview', 'NvimTree', 'vista_kind', 'terminal', 'packer' },
         },
       }
 
-      hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+      -- -- Define custom highlight groups
+      -- vim.cmd [[
+      --   highlight IndentBlanklineChar guifg=#2a2e36 gui=nocombine
+      --   highlight IndentBlanklineContextChar guifg=#61afef gui=nocombine
+      --   highlight IndentBlanklineSpaceChar guifg=#2a2e36 gui=nocombine
+      --   highlight IndentBlanklineSpaceCharBlankline guifg=#2a2e36 gui=nocombine
+      -- ]]
+
+      -- Optionally, set additional context-specific highlights for Python and Lua
+      vim.cmd [[
+        augroup IndentBlanklineColors
+            autocmd!
+            autocmd FileType python highlight IndentBlanklineContextChar guifg=#98c379 gui=nocombine
+            autocmd FileType lua highlight IndentBlanklineContextChar guifg=#e5c07b gui=nocombine
+        augroup END
+      ]]
     end,
     main = 'ibl',
     opts = {},

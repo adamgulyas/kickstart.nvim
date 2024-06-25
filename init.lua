@@ -691,18 +691,44 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        pyright = {},
-        ruff_lsp = {
-          filetypes = { 'python' },
-          settings = {
-            format = {
-              args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
+        pylsp = {
+          plugins = {
+            pyflakes = { enabled = false },
+            pycodestyle = { enabled = false },
+            pylint = { enabled = false },
+            flake8 = { enabled = false },
+            mccabe = { enabled = true },
+            mypy = {
+              enabled = true,
+              live_mode = true, -- false will make mypy check the code only when you save
+              strict = true,
             },
-            lint = {
-              onSave = true,
+            ruff = {
+              enabled = true,
+              lineLength = 130,
+              config = {
+                format = {
+                  args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
+                },
+                lint = {
+                  onSave = true,
+                },
+              },
             },
           },
         },
+        -- ruff_lsp = {
+        --   filetypes = { 'python' },
+        --   settings = {
+        --     format = {
+        --       args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
+        --     },
+        --     lint = {
+        --       onSave = true,
+        --     },
+        --   },
+        -- },
+
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -1023,7 +1049,6 @@ require('lazy').setup({
     opts = {
       ensure_installed = {
         'python',
-        'html',
         'javascript',
         'typescript',
         'tsx',
@@ -1032,6 +1057,7 @@ require('lazy').setup({
         'c',
         'diff',
         'html',
+        'htmldjango',
         'css',
         'scss',
         'yaml',
@@ -1049,9 +1075,10 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'python', 'javascript', 'typescript', 'html', 'bash' },
+        -- additional_vim_regex_highlighting = { 'python', 'javascript', 'typescript', 'html', 'bash' },
+        additional_vim_regex_highlighting = false,
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      -- indent = { enable = true },
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`

@@ -482,7 +482,16 @@ require('lazy').setup({
       -- local cmp_nvim_lsp = require 'cmp_nvim_lsp'
       -- local configs = require 'lspconfig.configs'
       -- local util = require 'lspconfig.util'
-      require('null-ls').setup {}
+      local null_ls = require 'null-ls'
+
+      null_ls.setup {
+        sources = {
+          -- Only enable Ruff
+          -- null_ls.builtins.diagnostics.ruff,
+          null_ls.builtins.formatting.ruff,
+        },
+      }
+
       require('eslint').setup {
         on_attach = function(client, bufnr)
           -- Enable document formatting on save
@@ -691,43 +700,43 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        pylsp = {
-          plugins = {
-            pyflakes = { enabled = false },
-            pycodestyle = { enabled = false },
-            pylint = { enabled = false },
-            flake8 = { enabled = false },
-            mccabe = { enabled = true },
-            mypy = {
-              enabled = true,
-              live_mode = true, -- false will make mypy check the code only when you save
-              strict = true,
-            },
-            ruff = {
-              enabled = true,
-              lineLength = 130,
-              config = {
-                format = {
-                  args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
-                },
-                lint = {
-                  onSave = true,
-                },
-              },
-            },
-          },
-        },
-        -- ruff_lsp = {
-        --   filetypes = { 'python' },
-        --   settings = {
-        --     format = {
-        --       args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
+        -- pylsp = {
+        --   plugins = {
+        --     pyflakes = { enabled = false },
+        --     pyright = { enabled = false },
+        --     pycodestyle = { enabled = false },
+        --     pylint = { enabled = false },
+        --     flake8 = { enabled = false },
+        --     mypy = {
+        --       enabled = true,
+        --       live_mode = true, -- false will make mypy check the code only when you save
+        --       strict = true,
         --     },
-        --     lint = {
-        --       onSave = true,
+        --     ruff = {
+        --       enabled = true,
+        --       lineLength = 130,
+        --       config = {
+        --         format = {
+        --           args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
+        --         },
+        --         lint = {
+        --           onSave = true,
+        --         },
+        --       },
         --     },
         --   },
         -- },
+        ruff_lsp = {
+          filetypes = { 'python' },
+          settings = {
+            format = {
+              args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
+            },
+            lint = {
+              onSave = true,
+            },
+          },
+        },
 
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs

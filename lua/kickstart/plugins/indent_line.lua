@@ -1,11 +1,28 @@
+local base_highlight = {
+  'RainbowBaseRed',
+  'RainbowBaseYellow',
+  'RainbowBaseBlue',
+  'RainbowBaseViolet',
+  'RainbowBaseGreen',
+  'RainbowBaseCyan',
+  'RainbowBaseOrange',
+}
+local scope_highlight = {
+  'RainbowScopeRed',
+  'RainbowScopeYellow',
+  'RainbowScopeBlue',
+  'RainbowScopeViolet',
+  'RainbowScopeGreen',
+  'RainbowScopeCyan',
+  'RainbowScopeOrange',
+}
+
 return {
   {
     'HiPhish/rainbow-delimiters.nvim',
     config = function()
-      -- This module contains a number of default definitions
       local rainbow_delimiters = require 'rainbow-delimiters'
 
-      ---@type rainbow_delimiters.config
       vim.g.rainbow_delimiters = {
         strategy = {
           [''] = rainbow_delimiters.strategy['global'],
@@ -19,38 +36,18 @@ return {
           [''] = 110,
           lua = 210,
         },
+        highlight = scope_highlight,
       }
     end,
   },
-  { -- Add indentation guides even on blank lines
+  {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
-      local base_highlight = {
-        'RainbowBaseRed',
-        'RainbowBaseYellow',
-        'RainbowBaseBlue',
-        'RainbowBaseViolet',
-        'RainbowBaseGreen',
-        'RainbowBaseCyan',
-        'RainbowBaseOrange',
-      }
-      local scope_highlight = {
-        'RainbowScopeRed',
-        'RainbowScopeYellow',
-        'RainbowScopeBlue',
-        'RainbowScopeViolet',
-        'RainbowScopeGreen',
-        'RainbowScopeCyan',
-        'RainbowScopeOrange',
-      }
-
       local hooks = require 'ibl.hooks'
 
       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
       vim.g.rainbow_delimiters = { highlight = scope_highlight }
 
-      -- create the highlight groups in the highlight setup hook, so they are reset
-      -- every time the colorscheme changes
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
         vim.api.nvim_set_hl(0, 'RainbowBaseRed', { fg = '#4d2333' })
         vim.api.nvim_set_hl(0, 'RainbowBaseYellow', { fg = '#6b5231' })
@@ -91,22 +88,13 @@ return {
         },
       }
 
-      -- -- Define custom highlight groups
-      -- vim.cmd [[
-      --   highlight IndentBlanklineChar guifg=#2a2e36 gui=nocombine
-      --   highlight IndentBlanklineContextChar guifg=#61afef gui=nocombine
-      --   highlight IndentBlanklineSpaceChar guifg=#2a2e36 gui=nocombine
-      --   highlight IndentBlanklineSpaceCharBlankline guifg=#2a2e36 gui=nocombine
-      -- ]]
-
-      -- Optionally, set additional context-specific highlights for Python and Lua
-      vim.cmd [[
-        augroup IndentBlanklineColors
-            autocmd!
-            autocmd FileType python highlight IndentBlanklineContextChar guifg=#98c379 gui=nocombine
-            autocmd FileType lua highlight IndentBlanklineContextChar guifg=#e5c07b gui=nocombine
-        augroup END
-      ]]
+      -- Reload highlights when colorscheme changes
+      vim.api.nvim_create_autocmd('ColorScheme', {
+        pattern = '*',
+        callback = function()
+          hooks.trigger(hooks.type.HIGHLIGHT_SETUP)
+        end,
+      })
     end,
     main = 'ibl',
     opts = {},

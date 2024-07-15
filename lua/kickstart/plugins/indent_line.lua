@@ -21,7 +21,12 @@ return {
   {
     'HiPhish/rainbow-delimiters.nvim',
     config = function()
-      local rainbow_delimiters = require 'rainbow-delimiters'
+      local status_ok, rainbow_delimiters = pcall(require, 'rainbow-delimiters')
+
+      if not status_ok then
+        print 'Rainbow Delimiters not found!'
+        return
+      end
 
       vim.g.rainbow_delimiters = {
         strategy = {
@@ -31,10 +36,12 @@ return {
         query = {
           [''] = 'rainbow-delimiters',
           lua = 'rainbow-blocks',
+          python = 'rainbow-delimiters',
         },
         priority = {
           [''] = 110,
           lua = 210,
+          python = 210,
         },
         highlight = scope_highlight,
       }
@@ -46,7 +53,6 @@ return {
       local hooks = require 'ibl.hooks'
 
       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
-      vim.g.rainbow_delimiters = { highlight = scope_highlight }
 
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
         vim.api.nvim_set_hl(0, 'RainbowBaseRed', { fg = '#4d2333' })

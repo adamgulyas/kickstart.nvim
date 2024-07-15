@@ -162,6 +162,10 @@ vim.opt.termguicolors = true
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Map Ctrl+z to undo in insert mode
+vim.api.nvim_set_keymap('i', '<C-z>', '<C-o>u', { noremap = true, silent = true })
+
+-- Make all the chars fall
 vim.api.nvim_set_keymap('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { noremap = true, silent = true, desc = 'MAKE IT RAIN 💸💸💸' })
 
 -- Keybinding to yank all text

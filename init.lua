@@ -162,6 +162,16 @@ vim.opt.termguicolors = true
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Save file in insert mode with Ctrl+s
+vim.api.nvim_set_keymap('i', '<C-s>', '<C-o>:w<CR>', { noremap = true, silent = true })
+
+--  Close window with C-w
+vim.api.nvim_set_keymap('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true })
+
+-- Use <Tab> and <S-Tab> to indent
+vim.api.nvim_set_keymap('n', '<Tab>', '>>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-Tab>', '<<', { noremap = true, silent = true })
+
 -- Map Ctrl+z to undo in insert mode
 vim.api.nvim_set_keymap('i', '<C-z>', '<C-o>u', { noremap = true, silent = true })
 

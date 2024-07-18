@@ -1,20 +1,20 @@
 local base_highlight = {
-  'RainbowBaseRed',
-  'RainbowBaseYellow',
-  'RainbowBaseBlue',
+  'RainbowBaseCyan',
   'RainbowBaseViolet',
   'RainbowBaseGreen',
-  'RainbowBaseCyan',
+  'RainbowBaseBlue',
   'RainbowBaseOrange',
+  'RainbowBaseYellow',
+  'RainbowBaseRed',
 }
 local scope_highlight = {
-  'RainbowScopeRed',
-  'RainbowScopeYellow',
-  'RainbowScopeBlue',
+  'RainbowScopeCyan',
   'RainbowScopeViolet',
   'RainbowScopeGreen',
-  'RainbowScopeCyan',
+  'RainbowScopeBlue',
   'RainbowScopeOrange',
+  'RainbowScopeYellow',
+  'RainbowScopeRed',
 }
 
 return {

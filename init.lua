@@ -172,6 +172,9 @@ vim.api.nvim_set_keymap('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true
 vim.api.nvim_set_keymap('n', '<Tab>', '>>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<S-Tab>', '<<', { noremap = true, silent = true })
 
+vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true, silent = true })
+
 -- Map Ctrl+z to undo in insert mode
 vim.api.nvim_set_keymap('i', '<C-z>', '<C-o>u', { noremap = true, silent = true })
 
@@ -199,6 +202,10 @@ vim.api.nvim_set_keymap('v', '<M-j>', ":m '>+1<CR>gv=gv", { noremap = true, sile
 --
 -- -- Key mappings for redo in insert mode
 -- vim.api.nvim_set_keymap('i', '<C-r>', '<C-o><C-r>', { noremap = true, silent = true })
+
+vim.api.nvim_create_user_command('Spaces', function()
+  vim.cmd '%s/\\t/    /g'
+end, { nargs = 0 })
 
 vim.api.nvim_set_keymap('n', '<leader>cc', ':CopilotChat<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>cc', ':CopilotChat<CR>', { noremap = true, silent = true })

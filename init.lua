@@ -162,8 +162,14 @@ vim.opt.termguicolors = true
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- run ex command `:source Session.vim` to restore the session
+vim.api.nvim_set_keymap('n', '<leader>ob', ':source Session.vim<CR>', { noremap = true, silent = true })
+
 -- Save file in insert mode with Ctrl+s
 vim.api.nvim_set_keymap('i', '<C-s>', '<C-o>:w<CR>', { noremap = true, silent = true })
+
+-- Save file in normal mode with Ctrl+s
+vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true })
 
 --  Close window with C-w
 vim.api.nvim_set_keymap('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true })

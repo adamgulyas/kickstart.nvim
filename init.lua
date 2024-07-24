@@ -209,9 +209,15 @@ vim.api.nvim_set_keymap('v', '<M-j>', ":m '>+1<CR>gv=gv", { noremap = true, sile
 -- -- Key mappings for redo in insert mode
 -- vim.api.nvim_set_keymap('i', '<C-r>', '<C-o><C-r>', { noremap = true, silent = true })
 
-vim.api.nvim_create_user_command('Spaces', function()
-  vim.cmd '%s/\\t/    /g'
-end, { nargs = 0 })
+
+vim.api.nvim_create_user_command(
+  'Spaces', -- Change to lowercase
+  function(opts)
+    local spaces = tonumber(opts.args) or 4
+    vim.cmd('%s/\\t/' .. string.rep(' ', spaces) .. '/g')
+  end,
+  { nargs = 1 }
+)
 
 vim.api.nvim_set_keymap('n', '<leader>cc', ':CopilotChat<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>cc', ':CopilotChat<CR>', { noremap = true, silent = true })

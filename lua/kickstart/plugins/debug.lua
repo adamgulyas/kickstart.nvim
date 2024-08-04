@@ -23,6 +23,8 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'mfussenegger/nvim-dap-python',
+    'mxsdev/nvim-dap-vscode-js',
   },
   config = function()
     local dap = require 'dap'
@@ -42,6 +44,10 @@ return {
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'python',
+        'node2',
+        'chrome',
+        'firefox',
       },
     }
 
@@ -55,11 +61,24 @@ return {
       {
         type = 'python',
         request = 'launch',
-        name = 'Launch file',
-        program = '${file}',
+        name = 'Python File',
+        program = function()
+          local cwd = vim.fn.getcwd()
+          if vim.fn.glob(cwd .. '/app.py') ~= '' then
+            return 'app.py'
+          elseif vim.fn.glob(cwd .. '/main.py') ~= '' then
+            return 'main.py'
+          elseif vim.fn.glob(cwd .. '/test.py') ~= '' then
+            return 'test.py'
+          else
+            return '${file}'
+          end
+        end,
         pythonPath = function()
           local cwd = vim.fn.getcwd()
-          if vim.fn.glob(cwd .. '/venv/bin/python') ~= '' then
+          if vim.fn.glob(cwd .. '/pyproject.toml') ~= '' then
+            return vim.fn.system('poetry env info --path'):gsub('%s+$', '') .. '/bin/python'
+          elseif vim.fn.glob(cwd .. '/venv/bin/python') ~= '' then
             return cwd .. '/venv/bin/python'
           elseif vim.fn.glob(cwd .. '/.venv/bin/python') ~= '' then
             return cwd .. '/.venv/bin/python'
@@ -67,6 +86,26 @@ return {
             return '/usr/bin/python3'
           end
         end,
+      },
+      {
+        type = 'python',
+        request = 'launch',
+        name = 'Django Project',
+        program = '${workspaceFolder}/manage.py',
+        args = { 'runserver', '--noreload' },
+        pythonPath = function()
+          local cwd = vim.fn.getcwd()
+          if vim.fn.glob(cwd .. '/pyproject.toml') ~= '' then
+            return vim.fn.system('poetry env info --path'):gsub('%s+$', '') .. '/bin/python'
+          elseif vim.fn.glob(cwd .. '/venv/bin/python') ~= '' then
+            return cwd .. '/venv/bin/python'
+          elseif vim.fn.glob(cwd .. '/.venv/bin/python') ~= '' then
+            return cwd .. '/.venv/bin/python'
+          else
+            return '/usr/bin/python3'
+          end
+        end,
+        django = true,
       },
     }
 
@@ -92,15 +131,15 @@ return {
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
       controls = {
         icons = {
-          pause = '⏸',
-          play = '▶',
-          step_into = '⏎',
-          step_over = '⏭',
-          step_out = '⏮',
-          step_back = 'b',
-          run_last = '▶▶',
-          terminate = '⏹',
-          disconnect = '⏏',
+          pause = '',
+          play = '',
+          step_into = '󰆹',
+          -- step_over = '󰆷',
+          step_out = '󰆸',
+          -- step_back = '',
+          run_last = '',
+          terminate = '',
+          disconnect = '',
         },
       },
     }

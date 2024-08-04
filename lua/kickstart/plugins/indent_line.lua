@@ -1,20 +1,20 @@
 local base_highlight = {
+  'RainbowBaseRed',
+  'RainbowBaseYellow',
   'RainbowBaseCyan',
   'RainbowBaseViolet',
   'RainbowBaseGreen',
   'RainbowBaseBlue',
   'RainbowBaseOrange',
-  'RainbowBaseYellow',
-  'RainbowBaseRed',
 }
 local scope_highlight = {
+  'RainbowScopeRed',
+  'RainbowScopeYellow',
   'RainbowScopeCyan',
   'RainbowScopeViolet',
   'RainbowScopeGreen',
   'RainbowScopeBlue',
   'RainbowScopeOrange',
-  'RainbowScopeYellow',
-  'RainbowScopeRed',
 }
 
 return {
@@ -55,15 +55,15 @@ return {
       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        vim.api.nvim_set_hl(0, 'RainbowBaseRed', { fg = '#4d2333' })
+        vim.api.nvim_set_hl(0, 'RainbowBaseRed', { fg = '#4E2533' })
         vim.api.nvim_set_hl(0, 'RainbowBaseYellow', { fg = '#6b5231' })
         vim.api.nvim_set_hl(0, 'RainbowBaseBlue', { fg = '#37516a' })
         vim.api.nvim_set_hl(0, 'RainbowBaseOrange', { fg = '#692F5C' })
         vim.api.nvim_set_hl(0, 'RainbowBaseGreen', { fg = '#4b6241' })
         vim.api.nvim_set_hl(0, 'RainbowBaseViolet', { fg = '#583d6a' })
         vim.api.nvim_set_hl(0, 'RainbowBaseCyan', { fg = '#385262' })
-        vim.api.nvim_set_hl(0, 'RainbowScopeRed', { fg = '#f7768e' })
-        vim.api.nvim_set_hl(0, 'RainbowScopeYellow', { fg = '#e0af68' })
+        vim.api.nvim_set_hl(0, 'RainbowScopeRed', { fg = '#F274A0' })
+        vim.api.nvim_set_hl(0, 'RainbowScopeYellow', { fg = '#E1E366' })
         vim.api.nvim_set_hl(0, 'RainbowScopeBlue', { fg = '#7aa2f7' })
         vim.api.nvim_set_hl(0, 'RainbowScopeOrange', { fg = '#ED7BD4' })
         vim.api.nvim_set_hl(0, 'RainbowScopeGreen', { fg = '#9ece6a' })

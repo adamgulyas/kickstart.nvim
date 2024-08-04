@@ -209,7 +209,6 @@ vim.api.nvim_set_keymap('v', '<M-j>', ":m '>+1<CR>gv=gv", { noremap = true, sile
 -- -- Key mappings for redo in insert mode
 -- vim.api.nvim_set_keymap('i', '<C-r>', '<C-o><C-r>', { noremap = true, silent = true })
 
-
 vim.api.nvim_create_user_command(
   'Spaces', -- Change to lowercase
   function(opts)
@@ -439,7 +438,11 @@ require('lazy').setup({
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+          find_files = {
+            hidden = true, -- This line includes hidden files in the `find_files` picker
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -560,8 +563,6 @@ require('lazy').setup({
           client.server_capabilities.documentFormattingProvider = false
         end,
       }
-
-      -- require('lspconfig').dotenvls.setup {}
 
       -- Emmet Language Server setup
       lspconfig.emmet_ls.setup {

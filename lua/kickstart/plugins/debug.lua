@@ -47,7 +47,7 @@ return {
         'python',
         'node2',
         'chrome',
-        'firefox',
+        -- 'firefox',
       },
     }
 
@@ -55,12 +55,6 @@ return {
       type = 'executable',
       command = 'python3',
       args = { '-m', 'debugpy.adapter' },
-    }
-
-    dap.adapters.node2 = {
-      type = 'executable',
-      command = 'node',
-      args = { os.getenv 'HOME' .. '/.local/share/nvim/mason/packages/node-debug2-adapter/out/src/nodeDebug.js' },
     }
 
     dap.configurations.python = {
@@ -115,6 +109,17 @@ return {
       },
     }
 
+    dap.adapters.node2 = {
+      type = 'executable',
+      command = 'node',
+      args = { os.getenv 'HOME' .. '/.local/share/nvim/mason/packages/node-debug2-adapter/out/src/nodeDebug.js' },
+    }
+
+    dap.adapters.chrome = {
+      type = 'executable',
+      command = 'node',
+      args = { os.getenv 'HOME' .. '/.local/share/nvim/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js' },
+    }
     -- Configurations for JavaScript, TypeScript, and TypeScriptReact
     dap.configurations.javascript = {
       {
@@ -159,12 +164,6 @@ return {
     dap.configurations.typescript = dap.configurations.javascript
     dap.configurations.typescriptreact = dap.configurations.javascript
 
-    dap.adapters.chrome = {
-      type = 'executable',
-      command = 'node',
-      args = { os.getenv 'HOME' .. '/.local/share/nvim/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js' },
-    }
-
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Debug: Start/Continue' })
     vim.keymap.set('n', '<leader>di', dap.step_into, { desc = 'Debug: Step Into' })
@@ -184,17 +183,17 @@ return {
       -- Set icons to characters that are more likely to work in every terminal.
       --    Feel free to remove or use ones that you like more! :)
       --    Don't feel like these are good choices.
-      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+      icons = { expanded = '▼', collapsed = '▶', current_frame = '' },
       controls = {
         icons = {
           pause = '',
-          play = '',
-          step_into = '󰆹',
-          -- step_over = '󰆷',
-          step_out = '󰆸',
-          -- step_back = '',
-          run_last = '',
-          terminate = '',
+          play = '',
+          step_into = '↳', -- 󰆹
+          step_over = '↱', -- 󰆷
+          step_out = '↲', -- 󰆸
+          step_back = '←',
+          run_last = '',
+          terminate = '',
           disconnect = '',
         },
       },
@@ -206,6 +205,14 @@ return {
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    -- 󰃤
+    vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = '', numhl = '' })
+
+    vim.cmd [[
+      highlight DapBreakpoint guifg=#FF7B85
+      highlight DapStopped guifg=#FFF24D
+    ]]
 
     -- Install golang specific config
     require('dap-go').setup {

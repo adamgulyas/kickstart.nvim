@@ -57,6 +57,12 @@ return {
       args = { '-m', 'debugpy.adapter' },
     }
 
+    dap.adapters.node2 = {
+      type = 'executable',
+      command = 'node',
+      args = { os.getenv 'HOME' .. '/.local/share/nvim/mason/packages/node-debug2-adapter/out/src/nodeDebug.js' },
+    }
+
     dap.configurations.python = {
       {
         type = 'python',
@@ -107,6 +113,56 @@ return {
         end,
         django = true,
       },
+    }
+
+    -- Configurations for JavaScript, TypeScript, and TypeScriptReact
+    dap.configurations.javascript = {
+      {
+        name = 'Launch Chrome',
+        type = 'chrome',
+        request = 'launch',
+        url = 'http://localhost:3000',
+        webRoot = '${workspaceFolder}/src',
+        userDataDir = '${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir',
+      },
+      {
+        name = 'Attach to Chrome',
+        type = 'chrome',
+        request = 'attach',
+        -- program = '${file}',
+        processId = require('dap.utils').pick_process,
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = 'inspector',
+        port = 9222, -- Default debugging port for Chrome
+        webRoot = '${workspaceFolder}/src',
+      },
+      {
+        name = 'Launch File',
+        type = 'node2',
+        request = 'launch',
+        program = '${file}',
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = 'inspector',
+        console = 'integratedTerminal',
+      },
+      {
+        name = 'Attach to Process',
+        type = 'node2',
+        request = 'attach',
+        processId = require('dap.utils').pick_process,
+        cwd = vim.fn.getcwd(),
+      },
+    }
+
+    dap.configurations.typescript = dap.configurations.javascript
+    dap.configurations.typescriptreact = dap.configurations.javascript
+
+    dap.adapters.chrome = {
+      type = 'executable',
+      command = 'node',
+      args = { os.getenv 'HOME' .. '/.local/share/nvim/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js' },
     }
 
     -- Basic debugging keymaps, feel free to change to your liking!

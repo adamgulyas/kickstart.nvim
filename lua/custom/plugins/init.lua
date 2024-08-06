@@ -4,44 +4,111 @@
 -- See the kickstart.nvim README for more information
 
 return {
+  -- {
+  --   'goolord/alpha-nvim',
+  --   dependencies = {
+  --     'nvim-tree/nvim-web-devicons',
+  --   },
+  --
+  --   config = function()
+  --     local alpha = require 'alpha'
+  --     local dashboard = require 'alpha.themes.startify'
+  --
+  --     local function lolcat_header(header)
+  --       local handle = io.popen("echo '" .. table.concat(header, '\n') .. "' | lolcat")
+  --       local result = handle:read '*a'
+  --       handle:close()
+  --       return vim.split(result, '\n')
+  --     end
+  --
+  --     local header = {
+  --       [[                                                                       ]],
+  --       [[                                                                       ]],
+  --       [[                                                                       ]],
+  --       [[                                                                       ]],
+  --       [[                                                                     ]],
+  --       [[       ████ ██████           █████      ██                     ]],
+  --       [[      ███████████             █████                             ]],
+  --       [[      █████████ ███████████████████ ███   ███████████   ]],
+  --       [[     █████████  ███    █████████████ █████ ██████████████   ]],
+  --       [[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
+  --       [[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
+  --       [[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
+  --       [[                                                                       ]],
+  --       [[                                                                       ]],
+  --       [[                                                                       ]],
+  --     }
+  --
+  --     dashboard.section.header.val = lolcat_header(header)
+  --
+  --     -- require('alpha').setup {
+  --     --   layout = {
+  --     --     { type = 'text', val = lolcat_header(header), opts = { position = 'center' } },
+  --     --     -- Add other components like buttons here
+  --     --   },
+  --     --   -- Add other settings if needed
+  --     -- }
+  --     -- Define a highlight group for the header
+  --     -- vim.api.nvim_set_hl(0, 'AlphaHeader', { fg = '#bce368', bg = 'NONE', bold = true })
+  --     --
+  --     -- Apply the highlight group to the header
+  --     dashboard.section.header.opts = {
+  --       position = 'center',
+  --       -- hl = 'AlphaHeader',
+  --     }
+  --
+  --     alpha.setup(dashboard.opts)
+  --   end,
+  -- },
   {
-    'goolord/alpha-nvim',
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-    },
-
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
     config = function()
-      local alpha = require 'alpha'
-      local dashboard = require 'alpha.themes.startify'
-
-      dashboard.section.header.val = {
-        [[                                                                       ]],
-        [[                                                                       ]],
-        [[                                                                       ]],
-        [[                                                                       ]],
-        [[                                                                     ]],
-        [[       ████ ██████           █████      ██                     ]],
-        [[      ███████████             █████                             ]],
-        [[      █████████ ███████████████████ ███   ███████████   ]],
-        [[     █████████  ███    █████████████ █████ ██████████████   ]],
-        [[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
-        [[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
-        [[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
-        [[                                                                       ]],
-        [[                                                                       ]],
-        [[                                                                       ]],
+      local cat_cmd = 'cat | lolcat -F 0.3'
+      require('dashboard').setup {
+        shortcut_type = 'number',
+        theme = 'hyper',
+        hide = {
+          statusline = false, -- hide statusline default is true
+          tabline = true, -- hide the tabline
+          winbar = true, -- hide winbar
+        },
+        preview = {
+          command = cat_cmd,
+          file_path = '$HOME/.config/nvim/lua/custom/utils/dashboard_header.txt', -- preview file path
+          file_height = 11, -- preview file height
+          file_width = 70, -- preview file width
+        },
+        config = {
+          header = {
+            [[                                                                       ]],
+            [[                                                                       ]],
+            [[                                                                       ]],
+            [[                                                                       ]],
+            [[                                                                     ]],
+            [[       ████ ██████           █████      ██                     ]],
+            [[      ███████████             █████                             ]],
+            [[      █████████ ███████████████████ ███   ███████████   ]],
+            [[     █████████  ███    █████████████ █████ ██████████████   ]],
+            [[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
+            [[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
+            [[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
+            [[                                                                       ]],
+            [[                                                                       ]],
+            [[                                                                       ]],
+          },
+          footer = {},
+          shortcut = {},
+          packages = { enable = false }, -- show how many plugins neovim loaded
+          -- limit how many projects list, action when you press key or enter it will run this action.
+          -- action can be a functino type, e.g.
+          -- action = func(path) vim.cmd('Telescope find_files cwd=' .. path) end
+          project = { enable = false, limit = 8, icon = '', label = '', action = 'Telescope find_files cwd=' },
+          -- mru = { limit = 10, icon = ' ', label = '', cwd_only = false },
+        },
       }
-      -- Define a highlight group for the header
-      vim.api.nvim_set_hl(0, 'AlphaHeader', { fg = '#bce368', bg = 'NONE', bold = true })
-      --
-      -- Apply the highlight group to the header
-      dashboard.section.header.opts = {
-        position = 'center',
-        hl = 'AlphaHeader',
-      }
-
-      alpha.setup(dashboard.opts)
     end,
+    dependencies = { { 'nvim-tree/nvim-web-devicons' } },
   },
   {
     'akinsho/bufferline.nvim',

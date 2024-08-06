@@ -361,20 +361,20 @@ require('lazy').setup({
       wk.setup()
 
       -- document existing key chains
-      wk.register({
-        c = { name = '[C]ode' },
-        d = { name = '[D]ocument' },
-        h = { name = 'Git [H]unk' },
-        r = { name = '[R]ename' },
-        s = { name = '[S]earch' },
-        t = { name = '[T]oggle' },
-        w = { name = '[W]orkspace' },
-      }, { prefix = '<leader>' })
-
-      -- visual mode
-      wk.register({
-        h = { name = 'Git [H]unk' },
-      }, { mode = 'v', prefix = '<leader>' })
+      -- wk.register({
+      --   c = { name = '[C]ode' },
+      --   d = { name = '[D]ocument' },
+      --   h = { name = 'Git [H]unk' },
+      --   r = { name = '[R]ename' },
+      --   s = { name = '[S]earch' },
+      --   t = { name = '[T]oggle' },
+      --   w = { name = '[W]orkspace' },
+      -- }, { prefix = '<leader>' })
+      --
+      -- -- visual mode
+      -- wk.register({
+      --   h = { name = 'Git [H]unk' },
+      -- }, { mode = 'v', prefix = '<leader>' })
     end,
   },
 

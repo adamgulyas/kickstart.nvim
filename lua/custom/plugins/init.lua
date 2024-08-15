@@ -13,14 +13,6 @@ return {
     config = function()
       local alpha = require 'alpha'
       local dashboard = require 'alpha.themes.startify'
-
-      local function lolcat_header(header)
-        local handle = io.popen("echo '" .. table.concat(header, '\n') .. "' | lolcat")
-        local result = handle:read '*a'
-        handle:close()
-        return vim.split(result, '\n')
-      end
-
       local header = {
         [[                                                                       ]],
         [[                                                                       ]],
@@ -39,16 +31,8 @@ return {
         [[                                                                       ]],
       }
 
-      -- dashboard.section.header.val = lolcat_header(header)
       dashboard.section.header.val = header
 
-      -- require('alpha').setup {
-      --   layout = {
-      --     { type = 'text', val = lolcat_header(header), opts = { position = 'center' } },
-      --     -- Add other components like buttons here
-      --   },
-      --   -- Add other settings if needed
-      -- }
       -- Define a highlight group for the header
       vim.api.nvim_set_hl(0, 'AlphaHeader', { fg = '#bce368', bg = 'NONE', bold = true })
       --
@@ -60,6 +44,48 @@ return {
 
       alpha.setup(dashboard.opts)
     end,
+    --
+    --   ------- ATTEMPT TO ADD LOLCAT HEADER -------
+    --   -- -- Require alpha-nvim
+    --   --   local alpha = require 'alpha'
+    --   --   local dashboard = require 'alpha.themes.dashboard'
+    --   --
+    --   --   -- Function to open a floating terminal with lolcat output
+    --   --   local function open_lolcat_header()
+    --   --     -- Calculate the size and position of the floating terminal
+    --   --     local width = math.floor(vim.o.columns * 0.8) -- 80% of the editor width
+    --   --     local height = math.floor(vim.o.lines * 0.3) -- 30% of the editor height
+    --   --     local col = math.floor((vim.o.columns - width) / 2)
+    --   --     local row = math.floor((vim.o.lines - height) / 3)
+    --   --
+    --   --     -- Open a floating terminal and execute the lolcat command
+    --   --     local buf = vim.api.nvim_create_buf(false, true) -- Create a scratch buffer
+    --   --     vim.api.nvim_open_win(buf, true, {
+    --   --       relative = 'editor',
+    --   --       width = width,
+    --   --       height = height,
+    --   --       col = col,
+    --   --       row = row,
+    --   --       border = 'single', -- Optional: Add a border to the window
+    --   --       style = 'minimal',
+    --   --     })
+    --   --
+    --   --     -- Run the lolcat command on your file in the terminal buffer
+    --   --     vim.fn.termopen 'cat ~/.config/nvim/lua/custom/utils/dashboard_header.txt | lolcat -F 0.3'
+    --   --   end
+    --   --
+    --   --   -- Call the function to display lolcat header when alpha-nvim starts
+    --   --   open_lolcat_header()
+    --   --
+    --   --   -- Set up the rest of your alpha-nvim dashboard (e.g., buttons)
+    --   --   dashboard.section.buttons.val = {
+    --   --     dashboard.button('e', '  New file', ':ene <BAR> startinsert<CR>'),
+    --   --     dashboard.button('q', '  Quit', ':qa<CR>'),
+    --   --   }
+    --   --
+    --   --   -- Set up alpha-nvim
+    --   --   alpha.setup(dashboard.config)
+    --   -- end,
   },
   -- {
   --   'nvimdev/dashboard-nvim',
@@ -105,8 +131,8 @@ return {
   --         -- action can be a functino type, e.g.
   --         -- action = func(path) vim.cmd('Telescope find_files cwd=' .. path) end
   --         -- project = { enable = true, limit = 8, icon = '', label = '', action = 'Telescope find_files cwd=' },
-  --         project = { enable = true, limit = 8, action = 'Telescope find_files cwd=' },
-  --         -- mru = { limit = 10, icon = ' ', label = '', cwd_only = false },
+  --         project = { enable = false, limit = 8, action = 'Telescope find_files cwd=' },
+  --         mru = { limit = 10, icon = false, label = '', cwd_only = false },
   --       },
   --     }
   --   end,

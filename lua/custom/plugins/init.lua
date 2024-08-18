@@ -13,22 +13,41 @@ return {
     config = function()
       local alpha = require 'alpha'
       local startify = require 'alpha.themes.startify'
-      startify.section.header.val = {
-        [[]],
-        [[]],
-        [[]],
-        [[]],
-        [[]],
-        [[]],
-        [[]],
-        [[]],
-        [[]],
-        [[]],
+
+      local header_file = '/Users/adam/.config/nvim/lua/custom/utils/pacman_header.txt'
+      local function read_file_lines(file_path)
+        local lines = {}
+        for line in io.lines(file_path) do
+          table.insert(lines, line)
+        end
+        return lines
+      end
+
+      -- startify.section.header.val = {
+      --   [[                                                                     ]],
+      --   [[       ████ ██████           █████      ██                     ]],
+      --   [[      ███████████             █████                             ]],
+      --   [[      █████████ ███████████████████ ███   ███████████   ]],
+      --   [[     █████████  ███    █████████████ █████ ██████████████   ]],
+      --   [[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
+      --   [[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
+      --   [[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
+      -- }
+      --
+      startify.section.header.val = read_file_lines(header_file)
+
+      -- Define a highlight group for the header
+      vim.api.nvim_set_hl(0, 'AlphaHeader', { fg = '#bce368', bg = 'NONE', bold = true })
+      --
+      -- Apply the highlight group to the header
+      startify.section.header.opts = {
+        position = 'center',
+        hl = 'AlphaHeader',
       }
 
       startify.section.top_buttons.val = {}
       startify.section.bottom_buttons.val = {
-        startify.button('e', '  New file', ':ene <BAR> startinsert <CR>'),
+        startify.button('e', ' New', ':ene <BAR> startinsert <CR>'),
         startify.button('q', ' Quit', ':qa<CR>'),
       }
 
@@ -52,12 +71,17 @@ return {
       -- Function to open a floating terminal with lolcat output
       local function open_lolcat_header()
         -- Calculate the size and position of the floating terminal
-        local width = 70
-        local height = 8
+        -- -- Neovim header
+        -- local width = 70
+        -- local height = 8
+        -- Pacman Header
+        local width = 30
+        local height = 16
         -- local width = math.floor(vim.o.columns * 0.7) -- Adjust width based on your header
         -- local height = math.floor(vim.o.lines * 0.2) -- Adjust height based on your header
         local col = math.floor((vim.o.columns - width) / 2)
-        local row = math.floor((vim.o.lines - height) / 8)
+        -- local row = math.floor((vim.o.lines - height) / 8)
+        local row = 1
 
         -- Create a new buffer for the terminal output
         terminal_buf = vim.api.nvim_create_buf(false, true)
@@ -74,7 +98,7 @@ return {
         })
 
         -- Pipe the header file through lolcat and write the result into the buffer
-        vim.fn.termopen('cat ~/.config/nvim/lua/custom/utils/dashboard_header.txt | lolcat -F 0.3', {
+        vim.fn.termopen('cat ~/.config/nvim/lua/custom/utils/pacman_header.txt | lolcat -F 0.3', {
           on_exit = function(_, code, _)
             -- Ensure the terminal stays open but remove the "process exited" line
             if code == 0 then

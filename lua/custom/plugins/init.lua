@@ -12,80 +12,159 @@ return {
 
     config = function()
       local alpha = require 'alpha'
-      local dashboard = require 'alpha.themes.startify'
-      local header = {
-        [[                                                                       ]],
-        [[                                                                       ]],
-        [[                                                                       ]],
-        [[                                                                       ]],
-        [[                                                                     ]],
-        [[       ████ ██████           █████      ██                     ]],
-        [[      ███████████             █████                             ]],
-        [[      █████████ ███████████████████ ███   ███████████   ]],
-        [[     █████████  ███    █████████████ █████ ██████████████   ]],
-        [[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
-        [[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
-        [[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
-        [[                                                                       ]],
-        [[                                                                       ]],
-        [[                                                                       ]],
+      local startify = require 'alpha.themes.startify'
+      startify.section.header.val = {
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
       }
 
-      dashboard.section.header.val = header
-
-      -- Define a highlight group for the header
-      vim.api.nvim_set_hl(0, 'AlphaHeader', { fg = '#bce368', bg = 'NONE', bold = true })
-      --
-      -- Apply the highlight group to the header
-      dashboard.section.header.opts = {
-        position = 'center',
-        hl = 'AlphaHeader',
+      startify.section.top_buttons.val = {}
+      startify.section.bottom_buttons.val = {
+        startify.button('e', '  New file', ':ene <BAR> startinsert <CR>'),
+        startify.button('q', ' Quit', ':qa<CR>'),
       }
 
-      alpha.setup(dashboard.opts)
+      startify.section.mru_cwd.val[2].opts.hl = 'BufferLineHintSelected'
+      startify.section.mru_cwd.val[2].val = '󰊠 ' .. vim.fn.getcwd() .. '  '
+
+      startify.section.mru.val[2].val = ' All  '
+      startify.section.mru.val[2].opts.hl = 'BufferLineHintSelected'
+
+      -- print(vim.inspect(startify.section.mru_cwd.val))
+
+      -- Save the original background color to restore later
+      local original_bg = vim.fn.synIDattr(vim.fn.hlID 'Normal', 'bg', 'gui')
+
+      -- Set the background color for the alpha-nvim buffer
+      vim.api.nvim_set_hl(0, 'AlphaBg', { bg = '#1B1B24' }) -- Example colors
+
+      -- Store the window and buffer IDs globally to reference them for closing later
+      local terminal_buf, terminal_win
+
+      -- Function to open a floating terminal with lolcat output
+      local function open_lolcat_header()
+        -- Calculate the size and position of the floating terminal
+        local width = 70
+        local height = 8
+        -- local width = math.floor(vim.o.columns * 0.7) -- Adjust width based on your header
+        -- local height = math.floor(vim.o.lines * 0.2) -- Adjust height based on your header
+        local col = math.floor((vim.o.columns - width) / 2)
+        local row = math.floor((vim.o.lines - height) / 8)
+
+        -- Create a new buffer for the terminal output
+        terminal_buf = vim.api.nvim_create_buf(false, true)
+
+        -- Open a floating window for the buffer (with no border)
+        terminal_win = vim.api.nvim_open_win(terminal_buf, true, {
+          relative = 'editor',
+          width = width,
+          height = height,
+          col = col,
+          row = row,
+          border = 'none', -- No border for the terminal window
+          style = 'minimal',
+        })
+
+        -- Pipe the header file through lolcat and write the result into the buffer
+        vim.fn.termopen('cat ~/.config/nvim/lua/custom/utils/dashboard_header.txt | lolcat -F 0.3', {
+          on_exit = function(_, code, _)
+            -- Ensure the terminal stays open but remove the "process exited" line
+            if code == 0 then
+              vim.cmd 'stopinsert' -- Exit insert mode to prevent the 'Process exited' message
+            end
+          end,
+        })
+
+        vim.api.nvim_win_set_option(0, 'winhl', 'Normal:AlphaBg')
+      end
+
+      -- Function to close the floating terminal when leaving the dashboard
+      local function close_lolcat_header()
+        -- Check if the terminal buffer and window exist before attempting to close
+        if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
+          vim.api.nvim_win_close(terminal_win, true) -- Close the floating window
+        end
+        if terminal_buf and vim.api.nvim_buf_is_valid(terminal_buf) then
+          vim.api.nvim_buf_delete(terminal_buf, { force = true }) -- Delete the buffer
+        end
+        -- Set the background back to the original color
+        if vim.bo.filetype == 'alpha' then
+          -- Restore the original background and foreground colors
+          vim.cmd('highlight Normal guibg=' .. original_bg)
+        end
+      end
+
+      -- Check if the dashboard is being opened without any arguments (without a target file, thus alpha.nvim will load)
+      if vim.fn.argc() == 0 then
+        -- Call the function to display the lolcat header when alpha-nvim starts
+        open_lolcat_header()
+      end
+
+      -- Autocmd to set background color only for alpha-nvim buffer
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'alpha',
+        callback = function()
+          -- Set the Normal highlight only in this buffer
+          vim.api.nvim_buf_set_option(0, 'modifiable', false) -- Make buffer non-modifiable
+          vim.api.nvim_buf_set_option(0, 'buftype', 'nofile') -- Set buffer type to nofile
+
+          -- Apply the custom background color for the alpha-nvim dashboard
+          vim.cmd 'highlight Normal guibg=#1B1B24' -- Set background and foreground colors
+        end,
+      })
+
+      -- Automatically close the floating terminal when leaving the alpha dashboard
+      vim.api.nvim_create_autocmd('BufLeave', {
+        pattern = '*', -- Match any buffer leaving the dashboard
+        callback = close_lolcat_header,
+      })
+
+      -- Set up alpha-nvim
+      alpha.setup(startify.config)
     end,
+
+    ---------- OLD CONFIGURATION ----------
+    --   local alpha = require 'alpha'
+    --   local dashboard = require 'alpha.themes.startify'
+    --   local header = {
+    --     [[                                                                       ]],
+    --     [[                                                                       ]],
+    --     [[                                                                       ]],
+    --     [[                                                                       ]],
+    --     [[                                                                     ]],
+    --     [[       ████ ██████           █████      ██                     ]],
+    --     [[      ███████████             █████                             ]],
+    --     [[      █████████ ███████████████████ ███   ███████████   ]],
+    --     [[     █████████  ███    █████████████ █████ ██████████████   ]],
+    --     [[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
+    --     [[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
+    --     [[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
+    --     [[                                                                       ]],
+    --     [[                                                                       ]],
+    --     [[                                                                       ]],
+    --   }
     --
-    --   ------- ATTEMPT TO ADD LOLCAT HEADER -------
-    --   -- -- Require alpha-nvim
-    --   --   local alpha = require 'alpha'
-    --   --   local dashboard = require 'alpha.themes.dashboard'
+    --   dashboard.section.header.val = header
+    --
+    --   -- Define a highlight group for the header
+    --   vim.api.nvim_set_hl(0, 'AlphaHeader', { fg = '#bce368', bg = 'NONE', bold = true })
     --   --
-    --   --   -- Function to open a floating terminal with lolcat output
-    --   --   local function open_lolcat_header()
-    --   --     -- Calculate the size and position of the floating terminal
-    --   --     local width = math.floor(vim.o.columns * 0.8) -- 80% of the editor width
-    --   --     local height = math.floor(vim.o.lines * 0.3) -- 30% of the editor height
-    --   --     local col = math.floor((vim.o.columns - width) / 2)
-    --   --     local row = math.floor((vim.o.lines - height) / 3)
-    --   --
-    --   --     -- Open a floating terminal and execute the lolcat command
-    --   --     local buf = vim.api.nvim_create_buf(false, true) -- Create a scratch buffer
-    --   --     vim.api.nvim_open_win(buf, true, {
-    --   --       relative = 'editor',
-    --   --       width = width,
-    --   --       height = height,
-    --   --       col = col,
-    --   --       row = row,
-    --   --       border = 'single', -- Optional: Add a border to the window
-    --   --       style = 'minimal',
-    --   --     })
-    --   --
-    --   --     -- Run the lolcat command on your file in the terminal buffer
-    --   --     vim.fn.termopen 'cat ~/.config/nvim/lua/custom/utils/dashboard_header.txt | lolcat -F 0.3'
-    --   --   end
-    --   --
-    --   --   -- Call the function to display lolcat header when alpha-nvim starts
-    --   --   open_lolcat_header()
-    --   --
-    --   --   -- Set up the rest of your alpha-nvim dashboard (e.g., buttons)
-    --   --   dashboard.section.buttons.val = {
-    --   --     dashboard.button('e', '  New file', ':ene <BAR> startinsert<CR>'),
-    --   --     dashboard.button('q', '  Quit', ':qa<CR>'),
-    --   --   }
-    --   --
-    --   --   -- Set up alpha-nvim
-    --   --   alpha.setup(dashboard.config)
-    --   -- end,
+    --   -- Apply the highlight group to the header
+    --   dashboard.section.header.opts = {
+    --     position = 'center',
+    --     hl = 'AlphaHeader',
+    --   }
+    --
+    --   alpha.setup(dashboard.opts)
+    -- end,
   },
   -- {
   --   'nvimdev/dashboard-nvim',
@@ -131,8 +210,8 @@ return {
   --         -- action can be a functino type, e.g.
   --         -- action = func(path) vim.cmd('Telescope find_files cwd=' .. path) end
   --         -- project = { enable = true, limit = 8, icon = '', label = '', action = 'Telescope find_files cwd=' },
-  --         project = { enable = false, limit = 8, action = 'Telescope find_files cwd=' },
-  --         mru = { limit = 10, icon = false, label = '', cwd_only = false },
+  --         project = { limit = 8, action = 'Telescope find_files cwd=' },
+  --         mru = { limit = 10, icon = 'hi', label = '', cwd_only = false },
   --       },
   --     }
   --   end,

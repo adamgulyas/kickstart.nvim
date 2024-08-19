@@ -73,7 +73,7 @@ return {
 
       require('ibl').setup {
         indent = {
-          highlight = base_highlight,
+          -- highlight = base_highlight,
           char = '▏',
         },
         whitespace = {

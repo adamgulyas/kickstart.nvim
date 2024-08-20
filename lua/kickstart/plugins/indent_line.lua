@@ -74,7 +74,8 @@ return {
       require('ibl').setup {
         indent = {
           -- highlight = base_highlight,
-          char = '▏',
+          -- char = '▏',
+          char = '│',
         },
         whitespace = {
           highlight = scope_highlight,
@@ -82,6 +83,7 @@ return {
         },
         scope = {
           highlight = scope_highlight,
+          char = '┃', --┃ ▍ ▏ │ ┆
           include = {
             node_type = {
               python = { 'function', 'class', 'block', 'compound_statement' },

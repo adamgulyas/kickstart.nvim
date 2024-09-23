@@ -160,7 +160,7 @@ return {
     config = function()
       require('tabout').setup {
         tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
-        backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
+        backwards_tabkey = '', -- key to trigger backwards tabout, set to an empty string to disable
         act_as_tab = true, -- shift content if tab out is not possible
         act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
         completion = false, -- if the tabkey is used in a completion pum

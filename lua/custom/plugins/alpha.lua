@@ -117,7 +117,7 @@ return {
 
       local terminal = {
         type = 'terminal',
-        command = command .. random_image .. ' | lolcat -F 0.3',
+        command = command .. random_image .. ' | lolcat -p 1.0 -F 0.06',
         width = image_width,
         height = image_height,
 

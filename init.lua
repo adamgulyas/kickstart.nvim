@@ -1012,16 +1012,16 @@ require('lazy').setup({
           }
           hl.CursorLineNr = {
             bold = true,
-            fg = '#9FE86A',
+            fg = '#A8A4FD',
           }
           hl.LineNr = {
             fg = '#3b4261',
           }
           hl.LineNrAbove = {
-            fg = '#82AAFF',
+            fg = '#515168',
           }
           hl.LineNrBelow = {
-            fg = '#AD8AE5',
+            fg = '#515168',
           }
           hl.DiagnosticUnnecessary = {
             bg = '#38343d',

@@ -528,7 +528,7 @@ require('lazy').setup({
       null_ls.setup {
         sources = {
           -- Only enable Ruff
-          -- null_ls.builtins.diagnostics.ruff,
+          null_ls.builtins.diagnostics.ruff,
           null_ls.builtins.formatting.ruff,
         },
       }
@@ -751,17 +751,16 @@ require('lazy').setup({
         --       live_mode = true, -- false will make mypy check the code only when you save
         --       strict = true,
         --     },
-        --     ruff = {
-        --       enabled = true,
-        --       lineLength = 130,
-        --       config = {
-        --         format = {
-        --           args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
-        --         },
-        --         lint = {
-        --           onSave = true,
-        --         },
-        --       },
+        -- ruff = {
+        --   enabled = true,
+        --   lineLength = 130,
+        --   filetypes = { 'python' },
+        --   config = {
+        --     format = {
+        --       args = { '--config=' .. vim.fn.getcwd() .. '/pyproject.toml' },
+        --     },
+        --     lint = {
+        --       onSave = true,
         --     },
         --   },
         -- },
